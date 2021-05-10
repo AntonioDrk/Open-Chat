@@ -1,0 +1,11 @@
+{
+	"files.watcherExclude": {
+		"**/node_modules/*/**": false
+	},
+	"search.exclude": {
+		"**/node_modules": false
+	},
+	"cmake.configureOnOpen": false,
+	"prettier.tabWidth": 1,
+	"npm.enableRunFromFolder": true
+}

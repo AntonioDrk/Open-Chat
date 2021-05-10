@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  mongodb:
+    image: "mongo"
+    ports:
+        - "27017:27017"
+    networks:
+        pepe:
+    volumes: 
+        - mongodata:/data/db
+
+  mongo-sexpress:
+    image: "mongo-express"
+    ports:
+        - "8081:8081"
+    networks: 
+        pepe:
+    environment: 
+        - ME_CONFIG_MONGODB_SERVER=mongodb
+
+networks: 
+    pepe:
+
+volumes:
+    mongodata:

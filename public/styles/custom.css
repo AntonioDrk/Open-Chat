@@ -1,0 +1,43 @@
+#chatBox::-webkit-scrollbar {
+ width: 4px;
+ cursor: pointer;
+ /*background-color: rgba(229, 231, 235, var(--bg-opacity));*/
+}
+#chatBox::-webkit-scrollbar-track {
+ background-color: rgba(229, 231, 235, var(--bg-opacity));
+ cursor: pointer;
+ /*background: red;*/
+}
+#chatBox::-webkit-scrollbar-thumb {
+ cursor: pointer;
+ background-color: #a0aec0;
+ /*outline: 1px solid slategrey;*/
+}
+#chatBox {
+ word-break: break-word;
+}
+#user-list {
+ word-break: break-word;
+}
+svg#sendRoot {
+ width: inherit;
+ height: inherit;
+}
+
+p > a {
+ color: #fbbf24 !important;
+}
+
+body,
+html {
+ height: 100% !important;
+}
+
+#avatar-form > #avatar-input {
+ display: none;
+}
+
+#avatar-form > label > img:hover {
+ opacity: 0.75;
+ cursor: pointer;
+}
