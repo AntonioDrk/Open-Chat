@@ -23,6 +23,7 @@
         "mongoose": "^5.12.5",
         "multer": "^1.4.2",
         "nodemailer": "^6.5.0",
+        "nodemon": "^2.0.7",
         "postcss-cli": "^8.3.1",
         "postcss-import": "^14.0.0",
         "pug": "^3.0.2",
@@ -30,8 +31,8 @@
     },
     "devDependencies": {
         "autoprefixer": "^10.2.5",
-        "postcss": "^8.2.8",
-        "tailwindcss": "^2.0.4"
+        "postcss": "^8.2.15",
+        "tailwindcss": "^2.1.2"
     },
     "optionalDependencies": {
         "bufferutil": "^4.0.3",

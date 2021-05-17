@@ -30,7 +30,7 @@ const userSchema = new Schema({
     },
     avatarImagePath: {
         type: String,
-        default: 'public/images/avatars/defaultAvatar.png'
+        default: 'images/avatars/defaultAvatar.png'
     }
 }, { timestamps: true });
 

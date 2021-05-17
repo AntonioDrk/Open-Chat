@@ -1,4 +1,4 @@
-const sockIp = "ws://192.168.1.238:3000";
+const sockIp = "ws://192.168.1.151:3000";
 const socket = io(sockIp);
 socket.on("connect", () => {
     console.log(socket.id);

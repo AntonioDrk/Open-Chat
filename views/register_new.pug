@@ -1,0 +1,36 @@
+
+html(class='dark')
+  head 
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+    link(rel='stylesheet', href='../styles/style.css')
+    link(rel='stylesheet', href='../styles/custom.css')
+    title Sign-up
+  body(class='dark:bg-gray-900 flex justify-center h-screen')
+    .flex.flex-col.max-w-md.px-4.py-8.bg-white.rounded-lg.shadow(class='dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10 mt-40 mx-5 h-1/2')
+      .self-center.mb-2.text-xl.font-light.text-gray-800(class='sm:text-2xl dark:text-white')
+        | Create a new account
+      span.justify-center.text-sm.text-center.text-gray-500.flex-items-center(class='dark:text-gray-400')
+        | Already have an account ?
+        a.text-sm.text-blue-500.underline(href='/auth/login' class='hover:text-blue-700')
+          | Sign in
+      .p-6.mt-8
+        form(action='/auth/register' id='signup-form' autocomplete='off' method='POST')
+          .flex.flex-col.mb-2
+            .relative
+              input#input-username.rounded-lg.border-transparent.flex-1.appearance-none.border.border-gray-300.w-full.py-2.px-4.bg-white.text-gray-700.placeholder-gray-400.shadow-sm.text-base(type='text' class='focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' name='username' placeholder='Username' required)
+          .flex.flex-col.mb-2
+            .relative
+              input#input-displayname.rounded-lg.border-transparent.flex-1.appearance-none.border.border-gray-300.w-full.py-2.px-4.bg-white.text-gray-700.placeholder-gray-400.shadow-sm.text-base(type='text' class='focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' name='displayName' placeholder='Display name' required)
+          .flex.flex-col.mb-2
+            .relative
+              input#input-email.rounded-lg.border-transparent.flex-1.appearance-none.border.border-gray-300.w-full.py-2.px-4.bg-white.text-gray-700.placeholder-gray-400.shadow-sm.text-base(type='email' class='focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' name='email' placeholder='Email' required)
+          .flex.flex-col.mb-2
+            .relative
+              input#input-password.rounded-lg.border-transparent.flex-1.appearance-none.border.border-gray-300.w-full.py-2.px-4.bg-white.text-gray-700.placeholder-gray-400.shadow-sm.text-base(type='password' class='focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' name='password' placeholder='Password' required)
+          .flex.flex-col.items-center.my-2
+              .flex.mr-auto.text-red-600.items-center
+                h2 #{err}
+          .flex.w-full.my-4
+            button.py-2.px-4.bg-purple-600.text-white.w-full.transition.ease-in.duration-200.text-center.text-base.font-semibold.shadow-md.rounded-lg(type='submit' form='signup-form' value='Submit' class='hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 focus:outline-none focus:ring-2 focus:ring-offset-2')
+              | Register

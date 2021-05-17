@@ -61,10 +61,10 @@ function afterUpload(req, res, next){
 			res.status(505).send(err.message);
 		}
 	});
-	User.findById(req.session.user._id).then(user =>{
+	// Removes 'public/' from the pathTo var
+	newAvatarPath = pathTo.substring(pathTo.indexOf('/')+1, pathTo.length);
+	User.findByIdAndUpdate(req.session.user._id,{avatarImagePath: newAvatarPath} ).then(user =>{
 		if(user){
-			// Removes 'public/' from the pathTo var
-			user.avatarImagePath = pathTo.substring(pathTo.indexOf('/')+1, pathTo.length);
 			res.status(200).redirect('../');
 		}else{
 			res.sendStatus(505);

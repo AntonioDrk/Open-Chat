@@ -7,7 +7,7 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
 const loginView = 'login_new'
-const registerView = 'register'
+const registerView = 'register_new'
 
 // - - - - - - - - Models Imports - - - - - - - 
 const User = require('../models/user');
@@ -78,40 +78,47 @@ router.post('/register', [
   User.findOne({ email: req.body.email })
     .then(usr => {
       if (usr) {
-        res.status(400).render(registerView, { err: 'There\'s a user registered already with ' + req.body.email });
+        res.status(400).render(registerView, { err: 'There\'s a user registered already with that email' });
       } else {
-        let hashPass = crypto.createHash('sha512').update(req.body.password).digest('hex');
-        const newUser = new User({ username: req.body.username, password: hashPass, email: req.body.email, displayName: req.body.displayName });
-        newUser.save()
-          .then(val => {
-            // Once an user has been successfully saved, create a token for him
-            const newToken = new Token({ _userId: val._id, token: crypto.randomBytes(16).toString('hex') });
-            newToken.save()
-              .then(genToken => {
-                // Send email for confirmation 
-                transporter.sendMail({
-                  from: '"Chat-App 🦥" <chatapp.test.noreply@gmail.com>',
-                  to: val.email,
-                  subject: 'Email confirmation for Chat-App',
-                  text: 'Click here to confirm your email adress and login to the app http://' + process.env.IP + ':'
-                    + process.env.PORT + '/auth/token/' + genToken.token
-                }).then(
-                  _ => {
-                    res.status(200).render(registerView, {err: 'Check email for verification'});
-                  }
-                ).catch(
-                  err =>{
-                    res.status(200).render(registerView, {err: err.message});
-                  }
-                );
+        // Check if username is already used
+        User.findOne({username: req.body.username}).then(usr=>{
+          if(usr){
+            res.status(400).render(registerView, { err: 'There\'s a user registered already with that username' });
+          } else {
+            let hashPass = crypto.createHash('sha512').update(req.body.password).digest('hex');
+            const newUser = new User({ username: req.body.username, password: hashPass, email: req.body.email, displayName: req.body.displayName });
+            newUser.save()
+              .then(val => {
+                // Once an user has been successfully saved, create a token for him
+                const newToken = new Token({ _userId: val._id, token: crypto.randomBytes(16).toString('hex') });
+                newToken.save()
+                  .then(genToken => {
+                    // Send email for confirmation 
+                    transporter.sendMail({
+                      from: '"Chat-App 🦥" <chatapp.test.noreply@gmail.com>',
+                      to: val.email,
+                      subject: 'Email confirmation for Chat-App',
+                      text: 'Click here to confirm your email adress and login to the app http://' + process.env.IP + ':'
+                        + process.env.PORT + '/auth/token/' + genToken.token
+                    }).then(
+                      _ => {
+                        res.status(200).render(registerView, {err: 'Check email for verification'});
+                      }
+                    ).catch(
+                      err =>{
+                        res.status(200).render(registerView, {err: err.message});
+                      }
+                    );
+                  })
+                  .catch(err => {
+                    res.status(500).render(registerView, { err: err.message });
+                  });
               })
               .catch(err => {
                 res.status(500).render(registerView, { err: err.message });
               });
-          })
-          .catch(err => {
-            res.status(500).render(registerView, { err: err.message });
-          });
+          }
+        });
       }
 
     });

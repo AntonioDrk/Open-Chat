@@ -14,7 +14,6 @@ const { body, validationResult, check } = require('express-validator');
 const { data } = require('autoprefixer');
 const nodemailer = require('nodemailer');
 
-
 const app = express(); // By convention the var is called app
 
 // - - - - - - - MongoDB definitions - - - - - - -
@@ -41,7 +40,7 @@ const options = { serveClient: true };
 const io = require('socket.io')(httpServer, options);
 // check existance of enviorement variable PORT
 const port = process.env.PORT || 3000;
-const ip = process.env.IP || '192.168.1.238';
+const ip = process.env.IP || 'localhost';
 app.use(express.json());
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
