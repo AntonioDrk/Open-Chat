@@ -4,7 +4,7 @@ const Joi = require('joi'); // For doing validation SCHEMAS on received data
 const path = require('path');
 const express = require('express');
 const session = require('express-session')({
-  // TODO for production, use of secure cookies is necessary
+  // TODO: for production, use of secure cookies is necessary
   secret: process.env.SESSION_TOKEN,
   resave: false,
   saveUninitialized: false
@@ -78,7 +78,7 @@ app.use('/auth', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'))
 
 app.get('*', (req, res) => {
-  res.sendStatus(404);
+  res.render('404_page');
 });
 //  - - - - - - - - - - - - - - - - - - - - - -
 

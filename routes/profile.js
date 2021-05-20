@@ -65,11 +65,12 @@ function afterUpload(req, res, next){
 	newAvatarPath = pathTo.substring(pathTo.indexOf('/')+1, pathTo.length);
 	User.findByIdAndUpdate(req.session.user._id,{avatarImagePath: newAvatarPath} ).then(user =>{
 		if(user){
+			req.session.user.avatarImagePath = newAvatarPath;
 			res.status(200).redirect('../');
 		}else{
 			res.sendStatus(505);
 		}
-	}).catch(err=>{
+	}).catch(err => {
 		res.status(505).send(err.message);
 	});
 }

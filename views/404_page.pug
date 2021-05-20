@@ -1,0 +1,17 @@
+doctype html
+html 
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+    link(rel='stylesheet', href='../styles/style.css')
+    title 404 - Page not found
+  body
+    .bg-indigo-900.relative.overflow-hidden.h-screen
+      include ../public/images/404-background.svg
+      .inset-0.bg-black.opacity-25.absolute
+        .container.mx-auto.px-6.relative.z-10.flex.items-center.py-32(class='md:px-12 xl:py-40')
+          .w-full.font-mono.flex.flex-col.items-center.relative.z-10
+            h1.font-extrabold.text-5xl.text-center.text-white.leading-tight.mt-4
+              | You're alone here
+            p.font-extrabold.text-8xl.my-44.text-white.animate-bounce
+              | 404

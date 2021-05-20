@@ -2,10 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const { body, validationResult, check } = require('express-validator');
 const session = require('express-session');
+const fs = require('fs');
 const router = express.Router();
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
+const default_avatar_path = 'public/images/defaultAvatars/'
 const loginView = 'login_new'
 const registerView = 'register_new'
 
@@ -86,7 +88,13 @@ router.post('/register', [
             res.status(400).render(registerView, { err: 'There\'s a user registered already with that username' });
           } else {
             let hashPass = crypto.createHash('sha512').update(req.body.password).digest('hex');
-            const newUser = new User({ username: req.body.username, password: hashPass, email: req.body.email, displayName: req.body.displayName });
+            const newUser = new User({ 
+              username: req.body.username, 
+              password: hashPass, 
+              email: req.body.email, 
+              displayName: req.body.displayName,
+              avatarImagePath: getRandomDefaultAvatar()
+            });
             newUser.save()
               .then(val => {
                 // Once an user has been successfully saved, create a token for him
@@ -165,5 +173,15 @@ router.get('/logout', (req, res) => {
   req.session.user = '';
   res.redirect('../');
 });
+
+function getRandomDefaultAvatar() {
+  const defaultAvatars = fs.readdirSync(default_avatar_path);
+  const relPath = default_avatar_path.substring(default_avatar_path.indexOf('/')+1, default_avatar_path.length);
+  return  relPath + defaultAvatars[getRandomInt(defaultAvatars.length)];
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * (max - 1));
+}
 
 module.exports = router;
