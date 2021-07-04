@@ -1,45 +1,49 @@
 doctype html
 html 
-	head
-		meta(charset="utf-8")
-		meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
-		script.
-			let user = {displayName: '#{user.displayName}', username: '#{user.username}', avatarImagePath: '#{user.avatarImagePath}'};
-		script(src='/socket.io/socket.io.js')
-		script(src='./javascripts/client.js')
-		script(src='./javascripts/linkify.min.js')
-		script(src='./javascripts/linkify-string.min.js')
-		link(rel='stylesheet', href='../styles/style.css')
-		link(rel='stylesheet', href='../styles/custom.css')
-		title Express View Engine 
-	body(class='bg-gray-800 text-gray-200 ')
-		div(class='flex flex-row p-6 h-full')
-			div(class='flex-grow w-1/2 max-h-48 p-2 rounded bg-gray-900')
-				div(class='flex flex-row p-1')
-					form(action='/profile/avatar' id='avatar-form' enctype='multipart/form-data' method='post')
-						label(for='avatar-input')
-							img.image(src=user.avatarImagePath alt='Avatar Image' class='avatar')
-						input(id='avatar-input' name='avatar-input' type='file')
-					h1(class='pl-4 self-center') #{user.displayName} 
-				div(class='flex flex-col p-1 h-10')
-					p #{'@' + user.username}
-					a(href='/auth/logout' class='btn self-center text-center w-1/2 mt-1 rounded-md bg-gray-800 text-white shadow focus:outline-none focus:ring-2 hover:bg-green-800') Logout
-			div(class='flex-grow ml-4 p-2 rounded bg-gray-900')
-				div(class='flex flex-col h-full')
-					div(id='chatBox' class='flex-grow p-2 w-full overflow-x-auto overflow-y-scroll max-w-64 rounded-lg text-gray-200')
-						// = = = = = = = = To be deleted = = = = = = = =
-						div(class='msg')
-							div(class='avatar-container')
-								img.image(src='images/avatars/defaultAvatar.png' alt='Avatar Image' class='avatar')
-							div(class='text-container')
-								p Sender:
-								p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nibh non pharetra malesuada. Donec convallis feugiat aliquam. Suspendisse sed sodales quam, ac tristique tortor. Vestibulum ac mauris dui. Curabitur posuere dolor quis dolor egestas, a ornare turpis euismod. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Ut eu ligula malesuada tellus placerat sodales. Aenean molestie vel augue at aliquet. Suspendisse congue est vulputate ligula sagittis mollis. Proin lacus libero, tempor in diam eu, gravida elementum nulla. Quisque vitae consectetur neque. Phasellus varius facilisis ullamcorper. Mauris quis convallis purus. Nunc euismod non augue non dictum. Proin nec consequat ligula. Sed id bibendum mi.
-						// = = = = = = = = = = = = = = = = = = = = = = =
-					div(class='pt-4 flex')
-						input(type='text' placeholder='Your message' id='message-box' name='message-box' class='flex-grow pl-2 rounded-md text-gray-800 p-1')
-						button(type='button' onclick='sendMessage();' class='rounded-xl ml-1 w-10 h-10 bg-gray-800 text-white shadow focus:outline-none focus:ring-2 bg-gradient-to-r hover:from-blue-800 hover:to-pink-800')
-							div(class='w-full h-7 px-1.5 fill-current text-gray-200')
-								include ../public/images/send.svg
-			div(id='user-list' class='flex-grow ml-4 w-4/12 p-2 rounded bg-gray-900')
-				h1 Users:
-				
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+    link(rel='stylesheet', href='../styles/style.css')
+    link(rel='stylesheet', href='../styles/custom.css')
+    script.
+      let user = {displayName: '#{user.displayName}', username: '#{user.username}', avatarImagePath: '#{user.avatarImagePath}'};
+    script(src='/socket.io/socket.io.js')
+    script(src='./javascripts/client.js')
+    script(src='./javascripts/profile.js')
+    script(src='./javascripts/linkify.min.js')
+    script(src='./javascripts/linkify-string.min.js')
+    title Express View Engine 
+  body(class='bg-gray-800 text-gray-200 ')
+    div(class='flex flex-row p-6 h-full')
+      div(class='flex-grow-0 w-60 max-h-48 p-2 rounded bg-gray-900')
+        div(class='flex flex-row p-1')
+          form(class='flex-shrink-0 w-10' action='/profile/avatar' id='avatar-form' enctype='multipart/form-data' method='post')
+            label(for='avatar-input')
+              img.image(src=user.avatarImagePath alt='Avatar Image' class='avatar')
+            input(id='avatar-input' name='avatar-input' type='file')
+          div(class='flex-col w-full')
+            form(action='/profile/displayName' id='displayName-form' method='post' class='self-center pl-4 hidden')
+              input(id='displayName-input' name='displayName' type='text' class='text-gray-800 w-full pl-1')
+            div(id='displayName-text' class='flex-grow-0 pl-4 mr-8 font-bold overflow-ellipsis overflow-hidden') #{user.displayName}
+            p(class='pl-4') #{'@' + user.username}
+        div(class='flex flex-col p-1 h-10')
+          a(href='/auth/logout' class='btn self-center text-center w-1/2 mt-1 rounded-md bg-gray-800 text-white shadow focus:outline-none focus:ring-2 hover:bg-green-800') Logout
+      div(class='flex-grow w-3/4 xl:min-w-0 ml-4 p-2 rounded bg-gray-900')
+        div(class='flex flex-col h-full')
+          div(id='chatBox' class='flex-grow p-2 w-full overflow-x-auto overflow-y-scroll max-w-64 rounded-lg text-gray-200')
+            // = = = = = = = = To be deleted = = = = = = = =
+            div(class='msg')
+              div(class='avatar-container')
+                img.image(src='images/avatars/defaultAvatar.png' alt='Avatar Image' class='avatar')
+              div(class='text-container')
+                p Sender:
+                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nibh non pharetra malesuada. Donec convallis feugiat aliquam. Suspendisse sed sodales quam, ac tristique tortor. Vestibulum ac mauris dui. Curabitur posuere dolor quis dolor egestas, a ornare turpis euismod. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Ut eu ligula malesuada tellus placerat sodales. Aenean molestie vel augue at aliquet. Suspendisse congue est vulputate ligula sagittis mollis. Proin lacus libero, tempor in diam eu, gravida elementum nulla. Quisque vitae consectetur neque. Phasellus varius facilisis ullamcorper. Mauris quis convallis purus. Nunc euismod non augue non dictum. Proin nec consequat ligula. Sed id bibendum mi.
+            // = = = = = = = = = = = = = = = = = = = = = = =
+          div(class='pt-4 flex')
+            input(type='text' placeholder='Your message' id='message-box' name='message-box' class='flex-grow pl-2 rounded-md text-gray-800 p-1')
+            button(type='button' onclick='sendMessage();' class='rounded-xl ml-1 w-10 h-10 bg-gray-800 text-white shadow focus:outline-none focus:ring-2 bg-gradient-to-r hover:from-blue-800 hover:to-pink-800')
+              div(class='w-full h-7 px-1.5 fill-current text-gray-200')
+                include ../public/images/send.svg
+      div(id='user-list' class='flex-grow ml-4 xl:w-1/12 xl:inline-flex p-2 md:hidden sm:hidden rounded bg-gray-900')
+        h1 Users:
+        

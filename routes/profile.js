@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const { body, validationResult, check } = require('express-validator');
 const multer  = require('multer');
 const move = require('../move')
 const router = express.Router();
@@ -35,6 +36,8 @@ const upload = multer({
 	limits: limits
 }).single('avatar-input');
 
+// - - - - - - - - - MIDDLEWARE - - - - - - - - - -
+
 function isLoggedIn(req, res, next) {
 	if(req.session.user){
 		return next();
@@ -62,7 +65,7 @@ function afterUpload(req, res, next){
 		}
 	});
 	// Removes 'public/' from the pathTo var
-	newAvatarPath = pathTo.substring(pathTo.indexOf('/')+1, pathTo.length);
+	newAvatarPath = pathTo.substring(pathTo.indexOf('/') + 1, pathTo.length);
 	User.findByIdAndUpdate(req.session.user._id,{avatarImagePath: newAvatarPath} ).then(user =>{
 		if(user){
 			req.session.user.avatarImagePath = newAvatarPath;
@@ -74,6 +77,7 @@ function afterUpload(req, res, next){
 		res.status(505).send(err.message);
 	});
 }
+// - - - - - - - - - - - - - - - - - - - - - - - - -
 
 router.post('/avatar', isLoggedIn, function (req, res, next) {
 	
@@ -91,5 +95,26 @@ router.post('/avatar', isLoggedIn, function (req, res, next) {
 	});
 	
 }, afterUpload);
+
+router.post('/displayName', isLoggedIn, [
+  body('displayName').notEmpty()
+], function (req, res){
+  const errors = validationResult(req);
+  if(!errors.isEmpty()){
+    res.status(400).redirect('../');
+  }else{
+    User.findByIdAndUpdate(req.session.user._id, {displayName: req.body.displayName}).then(usr => {
+      err = '';
+      if(usr){
+        console.log('Updated displayName from ' + req.session.user.displayName + ' to ' + req.body.displayName);
+        req.session.user.displayName = req.body.displayName;
+        err = 'Successfully updated display name';
+      }else{
+        err = 'Error: Couldn\'t update the display name';
+      }
+      res.status(200).redirect('../');
+    });
+  }
+});
 
 module.exports = router;

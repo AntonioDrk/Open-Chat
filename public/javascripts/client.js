@@ -12,15 +12,26 @@ socket.on("room-update", (data) => {
 
 });
 
-window.onload = function() {
+if (window.addEventListener) // W3C standard
+{
+  window.addEventListener('load', main, false); // NB **not** 'onload'
+} 
+else if (window.attachEvent) // Microsoft
+{
+  window.attachEvent('onload', main);
+}
+
+function main() {
     //console.log(usrData[0]);
     setAutoUploadAvatar();
     const inputField = document.getElementById('message-box');
-    inputField.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter') {
-            sendMessage();
-        }
-    });
+    inputField.addEventListener('keyup', messageBoxInputHandler);
+}
+
+function messageBoxInputHandler(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
 };
 
 function setAutoUploadAvatar(){
